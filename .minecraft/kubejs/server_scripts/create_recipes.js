@@ -18,19 +18,6 @@ onEvent('recipes', event => {
 onEvent('item.tags', event => {
 })
 
-function createWoodRecipes(event, name){
-    let log = 'tfc:wood/log/'+name
-    let stripped_log = 'tfc:wood/stripped_log/'+name
-    let wood = 'tfc:wood/wood/'+name
-    let stripped_wood = 'tfc:wood/stripped_wood/'+name
-    let lumber = 'tfc:wood/lumber/'+name
-    event.recipes.createCutting(stripped_wood,wood)
-    event.recipes.createCutting(stripped_log,log)
-
-    event.recipes.createCutting(Item.of(lumber,10), stripped_wood)
-    event.recipes.createCutting(Item.of(lumber,10), stripped_log)
-}
-
 /**
  * 
  * @param {Internal.RecipeEventJS} event 
@@ -59,23 +46,4 @@ function createOreProcessing(event, ore){
 	let poor = 'tfc:ore/poor_'+ore
 	event.recipes.createCrushing([normal, poor], rich)
 	event.recipes.createCrushing([poor, poor], normal)
-
-	createMeltingRecipe(event,rich)
-	createMeltingRecipe(event,normal)
-	createMeltingRecipe(event,poor)
-}
-
-/**
- * 
- * @param {Internal.RecipeEventJS} event 
- * @param {string} item 
- */
-function createMeltingRecipe(event, item)
-{
-	event.forEachRecipe({type:"tfc:heating"},(v)=>
-	{
-		for (const [key, value] of Object.entries(v)) {
-			console.log(`${key}: ${value}`);
-		  }
-	})
 }
