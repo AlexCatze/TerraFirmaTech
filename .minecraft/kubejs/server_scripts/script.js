@@ -8,7 +8,14 @@ settings.logErroringRecipes = true
 var wood_types = ['kapok','hickory','douglas_fir','chestnut','blackwood','aspen','ash','acacia','maple','oak','palm','pine','rosewood','sequoia','spruce','sycamore','white_cedar','willow','birch'];
 
 onEvent('recipes', event => {
+	//Рецепты распила дерева
 	wood_types.forEach((v)=>createWoodRecipes(event,v))
+
+	//Рецепты жернова
+	event.forEachRecipe(
+		{type:"tfc:quern"}, recipe =>{
+			event.recipes.create.milling(recipe.outputItems, recipe.inputItems)},	
+	)
 })
 
 onEvent('item.tags', event => {
