@@ -9,9 +9,48 @@ onEvent('recipes', event => {
     //Рецепты жернова
     event.forEachRecipe(
             {type:"tfc:quern"}, recipe =>{
-                event.recipes.create.milling(recipe.outputItems, recipe.inputItems)},)
+                event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
 
     meltable_ores.forEach((v)=>createOreProcessing(event,v))
+
+    //Рецепты плавки
+    event.forEachRecipe(
+		{type:"tfc:heating"}, recipe =>{
+            var data = JSON.parse(recipe.json)
+            if(data.result_fluid) 
+            {
+                let output = Fluid.of(data.result_fluid.fluid, data.result_fluid.amount);
+			    let input = data.ingredient.item;
+			    /*if(temperature > 1500)
+			    	event.recipes.create.mixing(output, input).superheated() /// У нас пока негде его брать
+		    	else */
+		    		event.recipes.create.mixing(output, input).heated()
+            }
+		}		
+	)
+
+    //Рецепты отливки
+    event.forEachRecipe(
+		{type:"tfc:casting"}, recipe =>{
+            var data = JSON.parse(recipe.json)
+            event.recipes.createFilling(data.result.item, [
+                data.mold.item,
+                Fluid.of(data.fluid.ingredient, data.fluid.amount)
+            ])
+		}		
+	)
+
+    //Рецепты сварки
+    event.forEachRecipe(
+		{type:"tfc:welding"}, recipe =>{
+            var data = JSON.parse(recipe.json)
+            event.recipes.createCompacting(data.result.item, [
+                data.first_input,
+                data.second_input,
+                'tfc:powder/flux'
+            ].filter(item=>item)).heated()//.filter(item=>item)
+		}		
+	)
 
 })
 
