@@ -47,7 +47,7 @@ onEvent('recipes', event => {
                 data.first_input,
                 data.second_input,
                 'tfc:powder/flux'
-            ].filter(item=>item)).heated()//.filter(item=>item)
+            ]).heated()//.filter(item=>item)
 		}		
 	)
 
