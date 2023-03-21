@@ -7,8 +7,6 @@ onEvent('recipes', event => {
     wood_types.forEach(type => createWoodRecipes(event, type))
 
     //Рецепты жернова
-    //event.forEachRecipe({type:"tfc:quern"}, recipe => {
-    //event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
     event.forEachRecipe(
 		{type:"tfc:quern"}, recipe =>{
             var data = JSON.parse(recipe.json)
