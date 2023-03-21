@@ -16,3 +16,5 @@ instance.cfg
 .minecraft/config/roughlyenoughitems/hints.json
 
 .idea/
+
+.minecraft/config/oculus.properties
