@@ -4,3 +4,9 @@ natives
 !.minecraft/config/
 !.minecraft/kubejs/
 instance.cfg
+
+.minecraft/config/roughlyenoughitems/pinyin_double.properties
+
+.minecraft/config/roughlyenoughitems/pinyin.properties
+
+.minecraft/config/roughlyenoughitems/config.json5

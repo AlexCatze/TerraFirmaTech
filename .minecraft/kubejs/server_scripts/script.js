@@ -1,3 +1,6 @@
+// DONT ADD ANYTHING IN THIS FILE OR YOUR BLOOD WILL COVER THE STREETS
+
+
 // priority: 0
 
 settings.logAddedRecipes = true
