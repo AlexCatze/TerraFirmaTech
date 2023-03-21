@@ -7,8 +7,17 @@ onEvent('recipes', event => {
     wood_types.forEach(type => createWoodRecipes(event, type))
 
     //Рецепты жернова
-    event.forEachRecipe({type:"tfc:quern"}, recipe => {
-    event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
+    //event.forEachRecipe({type:"tfc:quern"}, recipe => {
+    //event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
+    event.forEachRecipe(
+		{type:"tfc:quern"}, recipe =>{
+            var data = JSON.parse(recipe.json)
+            if(data.ingredient.type=="tfc:not_rotten")
+                event.recipes.createMilling(data.result.stack,data.ingredient.ingredient)
+            else
+                event.recipes.createMilling(data.result,data.ingredient)
+		}		
+	)
 
     meltable_ores.forEach(ore => createOreProcessing(event, ore))
 
@@ -47,11 +56,19 @@ onEvent('recipes', event => {
     event.forEachRecipe(
 		{type:"tfc:welding"}, recipe =>{
             var data = JSON.parse(recipe.json)
-            event.recipes.createCompacting(data.result.item, [
+            /*event.recipes.createCompacting(data.result.item, [
                 data.first_input,
                 data.second_input,
                 'tfc:powder/flux'
-            ]).heated()
+            ]).heated()*/
+            var trans = data.result;
+            event.recipes.createSequencedAssembly(
+                [data.result],
+                data.first_input,[
+                event.recipes.createDeploying(trans,[trans,'tfc:powder/flux']),
+                event.recipes.createDeploying(trans,[trans,data.second_input]),
+                event.recipes.createPressing(trans,trans),
+                ]).transitionalItem(trans).loops(1) 
 		}		
 	)
 
@@ -63,6 +80,16 @@ onEvent('recipes', event => {
                 event.recipes.createPressing(data.result, [
                 data.input
             ])
+            else if(data.result.item.startsWith("tfc:metal/chain/"))//Делание цепей
+            {
+                var trans = data.result;
+                event.recipes.createSequencedAssembly(
+                    [data.result],
+                    data.input,[
+                    event.recipes.createCutting(trans,trans),
+                    event.recipes.createPressing(trans,trans)
+                    ]).transitionalItem(trans).loops(3) 
+            }
 		}		
 	)
 
