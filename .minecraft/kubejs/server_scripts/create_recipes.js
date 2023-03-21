@@ -1,14 +1,12 @@
 var wood_types = ['kapok','hickory','douglas_fir','chestnut','blackwood','aspen','ash','acacia','maple','oak','palm','pine','rosewood','sequoia','spruce','sycamore','white_cedar','willow','birch'];
 var meltable_ores = ['native_copper', 'native_silver', 'native_gold', 'hematite', 'cassiterite', 'bismuthinite', 'garnierite', 'sphalerite', 'tetrahedrite', 'limonite', 'malachite', 'magnetite']
-
+var stone_types = ['chert', 'dolomite','conglomerate','limestone','claystone','shale','gabbro','diorite','granite','schist','phyllite','slate','quartzite','dacite','andesite','basalt','rhyolite','chalk','gneiss','marble']
 
 onEvent('recipes', event => {
     //Рецепты распила дерева
     wood_types.forEach(type => createWoodRecipes(event, type))
 
     //Рецепты жернова
-    //event.forEachRecipe({type:"tfc:quern"}, recipe => {
-    //event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
     event.forEachRecipe(
 		{type:"tfc:quern"}, recipe =>{
             var data = JSON.parse(recipe.json)
@@ -93,10 +91,34 @@ onEvent('recipes', event => {
 		}		
 	)
 
+    //Рецепты связанные с камнями
+    stone_types.forEach(type => createStoneRecipes(event, type))
 
 })
 
 onEvent('item.tags', event => {})
+
+/**
+ * 
+ * @param {Internal.RecipeEventJS} event 
+ * @param {string} name 
+ */
+function createStoneRecipes(event, name){
+	var brick = "tfc:brick/"+name
+    var small = "tfc:rock/loose/"+name
+    var cobble = "tfc:rock/cobble/"+name
+    var gravel = "tfc:rock/gravel/"+name
+
+    var trans = brick;
+    event.recipes.createSequencedAssembly(
+        [brick],
+        small,[
+        event.recipes.createCutting(trans,trans),
+        event.recipes.createPressing(trans,trans)
+        ]).transitionalItem(trans).loops(2) 
+    
+    event.recipes.createCrushing(gravel,cobble)
+}
 
 /**
  * 
