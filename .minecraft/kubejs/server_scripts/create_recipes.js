@@ -32,7 +32,11 @@ onEvent('recipes', event => {
     event.forEachRecipe(
 		{type:"tfc:casting"}, recipe =>{
             var data = JSON.parse(recipe.json)
-            event.recipes.createFilling(data.result.item, [
+            var nbt = {};
+            nbt.tank = {};
+            nbt.tank.Amount = data.fluid.amount;
+            nbt.tank.FluidName = data.fluid.ingredient;
+            event.recipes.createFilling(Item.of(data.mold.item, 1, nbt), [
                 data.mold.item,
                 Fluid.of(data.fluid.ingredient, data.fluid.amount)
             ])
@@ -47,9 +51,21 @@ onEvent('recipes', event => {
                 data.first_input,
                 data.second_input,
                 'tfc:powder/flux'
-            ]).heated()//.filter(item=>item)
+            ]).heated()
 		}		
 	)
+
+    //Простые рецепты ковки
+    event.forEachRecipe(
+		{type:"tfc:anvil"}, recipe =>{
+            var data = JSON.parse(recipe.json)
+            if(data.result.item.startsWith("tfc:metal/ingot/"))//Отбивание слитков
+                event.recipes.createPressing(data.result, [
+                data.input
+            ])
+		}		
+	)
+
 
 })
 
