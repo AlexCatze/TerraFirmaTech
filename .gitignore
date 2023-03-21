@@ -10,3 +10,7 @@ instance.cfg
 .minecraft/config/roughlyenoughitems/pinyin.properties
 
 .minecraft/config/roughlyenoughitems/config.json5
+
+.minecraft/config/curios-client.toml
+
+.minecraft/config/roughlyenoughitems/hints.json
