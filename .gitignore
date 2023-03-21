@@ -3,3 +3,4 @@ natives
 !.minecraft/mods/
 !.minecraft/config/
 !.minecraft/kubejs/
+instance.cfg
