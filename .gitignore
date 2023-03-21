@@ -14,3 +14,5 @@ instance.cfg
 .minecraft/config/curios-client.toml
 
 .minecraft/config/roughlyenoughitems/hints.json
+
+.idea/
