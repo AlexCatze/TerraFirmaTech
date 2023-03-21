@@ -4,19 +4,17 @@ var meltable_ores = ['native_copper', 'native_silver', 'native_gold', 'hematite'
 
 onEvent('recipes', event => {
     //Рецепты распила дерева
-    wood_types.forEach((i)=>createWoodRecipes(event,i))
+    wood_types.forEach(type => createWoodRecipes(event, type))
 
     //Рецепты жернова
-    event.forEachRecipe(
-            {type:"tfc:quern"}, recipe =>{
-                event.recipes.create.milling(recipe.outputItems, recipe.inputItems)},)
+    event.forEachRecipe({type:"tfc:quern"}, recipe => {
+    event.recipes.create.milling(recipe.outputItems, recipe.inputItems)})
 
-    meltable_ores.forEach((v)=>createOreProcessing(event,v))
+    meltable_ores.forEach(ore => createOreProcessing(event, ore))
 
 })
 
-onEvent('item.tags', event => {
-})
+onEvent('item.tags', event => {})
 
 /**
  * 
