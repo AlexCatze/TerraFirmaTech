@@ -1,0 +1,5 @@
+natives
+.minecraft/*
+!.minecraft/mods/
+!.minecraft/config/
+!.minecraft/kubejs/
