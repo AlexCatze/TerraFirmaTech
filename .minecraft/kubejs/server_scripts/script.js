@@ -9,12 +9,11 @@ var wood_types = ['kapok','hickory','douglas_fir','chestnut','blackwood','aspen'
 
 onEvent('recipes', event => {
 	//Рецепты распила дерева
-	wood_types.forEach((v)=>createWoodRecipes(event,v))
+	wood_types.forEach(woodType => createWoodRecipes(event,woodType))
 
 	//Рецепты жернова
-	event.forEachRecipe(
-		{type:"tfc:quern"}, recipe =>{
-			event.recipes.create.milling(recipe.outputItems, recipe.inputItems)},	
+	event.forEachRecipe({type:"tfc:quern"}, recipe => {
+		event.recipes.create.milling(recipe.outputItems, recipe.inputItems)},	
 	)
 })
 
@@ -32,8 +31,8 @@ function createWoodRecipes(event, name){
 	let wood = 'tfc:wood/wood/'+name
 	let stripped_wood = 'tfc:wood/stripped_wood/'+name
 	let lumber = 'tfc:wood/lumber/'+name
-	event.recipes.createCutting(stripped_wood,wood)
-	event.recipes.createCutting(stripped_log,log)
+	event.recipes.createCutting(stripped_wood, wood)
+	event.recipes.createCutting(stripped_log, log)
 
 	event.recipes.createCutting(Item.of(lumber,10), stripped_wood)
 	event.recipes.createCutting(Item.of(lumber,10), stripped_log)
