@@ -1,5 +1,3 @@
-var rock_types = []
-
 onEvent('recipes', event => {
     // Waystone Recipes
     event.shaped('waystones:waystone',
